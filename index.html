@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Platzi Video</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        section {
+            height: 100%;
+        }
+
+        .content {
+            display: grid;
+            grid-template: 1fr 300px 1fr / 300px 1fr 1fr;
+        }
+
+        .playlist {
+            grid-row: 1 / 5;
+            background: #171b2f;
+            color: white;
+            padding-left: 12px;
+            padding-right: 32px;
+        }
+
+        .playlist .burger-icon {
+            display: none;
+        }
+
+        .playlist .menu {
+            transition: .4s;
+        }
+
+        .playlist ol {
+            font-size: 14px;
+        }
+
+        .playlist ol li {
+            display: list-item;
+            margin-bottom: 12px;
+            padding-left: 16px;
+            cursor: pointer;
+        }
+
+        .playlist img.logo {
+            width: 300px;
+        }
+
+        .playlist img.img_profiel {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .playlist .item-friend {
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .playlist .item-friend span {
+            margin-left: 14px;
+            font-size: 15px;
+        }
+
+        .video {
+            grid-row: 1 / 3;
+            grid-column: 2 / 4;
+            background-image: url(video.jpg);
+            background-size: cover;
+            position: relative;
+        }
+
+        .video .overlay-video {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, .35);
+            opacity: 0;
+            transition: .5s;
+        }
+
+        .video .overlay-video:hover {
+            opacity: 1;
+        }
+
+        .video .overlay-video .back-arrow {
+            width: 36px;
+            height: 36px;
+            position: absolute;
+            top: 24px;
+            left: 16px;
+        }
+
+        .video .overlay-video .play-icon {
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            left: 47%;
+            top: 44%;
+        }
+
+        .description_video {
+            grid-row: 3 / 4;
+            grid-column: 2 / 4;
+            border-bottom: 2px solid lightgray;
+        }
+
+        .description_video .container-description-video {
+            padding: 20px 14px 8px 14px;
+        }
+
+        .description_video h4,
+        .description_video .extas {
+            color: #424D6B;
+            display: inline-flex;
+            margin-left: 18px;
+        }
+
+        .description_video .extas {
+            justify-content: space-between;
+            min-width: 130px;
+        }
+
+        .description_video .tags {
+            display: inline-block;
+            margin-left: 70px;
+        }
+
+        .description_video .tags a {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .description_video .tags a.metal {
+            background: #333;
+        }
+
+        .description_video .tags a.rock {
+            background: lightslategray;
+        }
+
+        .description_video .tags a.punk {
+            background: green;
+        }
+
+        .description_video .tags a.folk {
+            background: #2196f3;
+        }
+
+        .description_video .extas .button {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .description_video .extas .button .text {
+            font-size: 12px;
+        }
+
+        .description_video h4,
+        .description_video p {
+            margin: 0;
+        }
+
+        .description_video p {
+            color: #827d7d;
+        }
+
+        .description_video .add-to-list {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px;
+            text-decoration: none;
+            color: #ffffff;
+            background: linear-gradient(to right, #ef3b36, #ffc3c3);
+            font-size: 14px;
+            border-radius: 8px;
+        }
+
+        .comments {
+            grid-row: 4 / 5;
+            grid-column: 2 / 3;
+            padding-left: 18px;
+            padding-right: 40px;
+            color: #424D6B;
+        }
+
+        .comments .box-comment {
+            background: #F2F2F2;
+            padding: 4px 8px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            margin-bottom: 24px;
+        }
+
+        .comments .item-comment .container-comment {
+            margin-left: 12px;
+        }
+
+        .comments .item-comment .container-comment .name {
+            font-size: 15px;
+            padding-bottom: 6px;
+        }
+
+        .comments .item-comment .container-comment .text-comment {
+            font-size: 14px;
+        }
+
+        .comments .box-comment img,
+        .comments .item-comment img {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .comments .item-comment {
+            display: flex;
+            margin-bottom: 16px;
+        }
+
+        .comments .box-comment input {
+            margin-left: 8px;
+            border: none;
+            background: transparent;
+            height: 26px;
+            width: 85%;
+        }
+
+        .comments .item-comment p {
+            margin: 0;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .suggestions {
+            grid-row: 4 / 5;
+            grid-column: 3 / 4;
+            padding-left: 18px;
+            color: #424D6B;
+        }
+
+        .suggestions .suggestion img {
+            width: 300px;
+            height: 200px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        }
+
+        .suggestions .suggestion p {
+            margin-top: 7px;
+            font-size: 14px;
+        }
+
+        @media screen and (max-width:1025px) {
+            .description_video .tags {
+                display: block;
+                margin-left: 0;
+                margin-top: 14px;
+            }
+        }
+
+        @media screen and (max-width:955px) {
+
+            .playlist {
+                grid-row: 1 / 6;
+            }
+            .comments {
+                grid-row: 5 / 5;
+                grid-column: 2 / 4;
+            }
+
+            .suggestions {
+                grid-row: 4 / 5;
+                grid-column: 2 / 4;
+            }
+
+            .suggestions .suggestion {
+                display: flex;
+                margin-bottom: 16px;
+            }
+
+            .suggestions .suggestion img {
+                width: 200px;
+                height: 100px;
+            }
+
+            .suggestions .suggestion p {
+                margin-left: 16px;
+            }
+        }
+
+        @media screen and (max-width:845px) {
+            .content {
+                grid-template: 70px 400px auto 1fr / 1fr;
+            }
+
+            .playlist {
+                grid-row: 1;
+                grid-column: 1;
+                padding-right: 0;
+            }
+
+            .playlist .burger-icon {
+                display: block;
+                float: left;
+                margin-top: 23px;
+                cursor: pointer;
+            }
+
+            .playlist .menu {
+                background-color: #171b2f;
+                z-index: 13;
+                position: relative;
+                top: 69px;
+                left: -1000px;
+                padding: 20px;
+            }
+
+            .playlist .opened {
+                left: -12px;
+            }
+
+            .playlist img.logo {
+                width: 245px;
+                float: right;
+            }
+
+            .video {
+                grid-row: 2;
+                grid-column: 1 / 4;
+            }
+
+            .description_video {
+                grid-row: 3 / 4;
+                grid-column: 1 / 4;
+            }
+
+            .description_video {
+                grid-column: 1 / 4;
+            }
+
+            .comments {
+                grid-row: 5;
+                grid-column: 1 / 3;
+            }
+
+            .suggestions {
+                grid-row: 4 / 5;
+                grid-column: 1 / 4;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <section class="content">
+        <section class="playlist">
+            <img class="logo" src="logo.png" alt="">
+            <div id="burger-icon" class="burger-icon">
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="#FFFFFF" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+                </svg>
+            </div>
+            <div id="content-menu" class="menu">
+                <h4>Mi Playlist</h4>
+                <ol>
+                    <li><span>5 Reasons To Choose A Notebook Over A Computer Desktop</span></li>
+                    <li><span>Get Around Easily With A New York Limousine Service</span></li>
+                    <li><span>How To Cook A Tender Juicy Steak</span></li>
+                    <li><span>How To Remove Kidney Stones</span></li>
+                    <li><span>The Science Of Superstitions</span></li>
+                    <li><span>5 Reasons To Choose A Notebook Over A Computer Desktop</span></li>
+                    <li><span>Get Around Easily With A New York Limousine Service</span></li>
+                    <li><span>How To Cook A Tender Juicy Steak</span></li>
+                    <li><span>How To Remove Kidney Stones</span></li>
+                    <li><span>The Science Of Superstitions</span></li>
+                </ol>
+                <h4>Playlist de amigos</h4>
+                <div class="item-friend">
+                    <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                    <span>John Connor</span>
+                </div>
+                <div class="item-friend">
+                    <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                    <span>John Connor</span>
+                </div>
+                <div class="item-friend">
+                    <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                    <span>John Connor</span>
+                </div>
+                <div class="item-friend">
+                    <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                    <span>John Connor</span>
+                </div>
+                <div class="item-friend">
+                    <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                    <span>John Connor</span>
+                </div>
+            </div>
+        </section>
+        <section class="video">
+            <div class="overlay-video">
+                <a href="">
+                    <svg class="back-arrow" viewBox="0 0 24 24">
+                        <path fill="#FFFFFF" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+                    </svg>
+                </a>
+                <a href="">
+                    <svg class="play-icon" viewBox="0 0 24 24">
+                        <path fill="#FFFFFF" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M10,16.5L16,12L10,7.5V16.5Z" />
+                    </svg>
+                </a>
+            </div>
+        </section>
+        <section class="description_video">
+            <div class="container-description-video">
+                <h4>New Order - Bizarre Love Triangle</h4>
+                <p>123,456 vistas</p>
+                <a class="add-to-list" href="">Agregar a mi lista</a>
+                <div class="extas">
+                    <div class="button share-button">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                            <path fill="#424D6B" d="M21,11L14,4V8C7,9 4,14 3,19C5.5,15.5 9,13.9 14,13.9V18L21,11Z" />
+                        </svg>
+                       <span class="text">Compartir</span>
+                    </div>
+                    <div class="button save-button">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                            <path fill="#424D6B" d="M17,13L12,18L7,13H10V9H14V13M19.35,10.03C18.67,6.59 15.64,4 12,4C9.11,4 6.6,5.64 5.35,8.03C2.34,8.36 0,10.9 0,14A6,6 0 0,0 6,20H19A5,5 0 0,0 24,15C24,12.36 21.95,10.22 19.35,10.03Z" />
+                        </svg>
+                        <span class="text">Guardar</span>
+                    </div>
+                </div>
+                <div class="tags">
+                    <a class="rock" href="">Rock</a>
+                    <a class="metal" href="">Metal</a>
+                    <a class="punk" href="">Punk</a>
+                    <a class="folk" href="">Folk Metal</a>
+                </div>
+            </div>
+        </section>
+        <section class="comments">
+            <h4>Comentarios</h4>
+            <div class="box-comment">
+                <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                <input type="text" placeholder="Añade un comentario" >
+            </div>
+            <div class="item-comment">
+                <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                <div class="container-comment">
+                    <p class="name">John Connor</p>
+                    <p class="text-comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, ex? Fugiat nam pariatur placeat non, dolore obcaecati</p>
+                </div>
+            </div>
+            <div class="item-comment">
+                <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                <div class="container-comment">
+                    <p class="name">John Connor</p>
+                    <p class="text-comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, ex? Fugiat nam pariatur placeat non, dolore obcaecati</p>
+                </div>
+            </div>
+            <div class="item-comment">
+                <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                <div class="container-comment">
+                    <p class="name">John Connor</p>
+                    <p class="text-comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, ex? Fugiat nam pariatur placeat non, dolore obcaecati</p>
+                </div>
+            </div>
+            <div class="item-comment">
+                <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                <div class="container-comment">
+                    <p class="name">John Connor</p>
+                    <p class="text-comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, ex? Fugiat nam pariatur placeat non, dolore obcaecati</p>
+                </div>
+            </div>
+            <div class="item-comment">
+                <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                <div class="container-comment">
+                    <p class="name">John Connor</p>
+                    <p class="text-comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, ex? Fugiat nam pariatur placeat non, dolore obcaecati</p>
+                </div>
+            </div>
+            <div class="item-comment">
+                <img class="img_profiel" src="https://i.kinja-img.com/gawker-media/image/upload/s--fzOfmUoo--/c_scale,fl_progressive,q_80,w_800/sy2nhb9wellljlm40tm5.png" alt="">
+                <div class="container-comment">
+                    <p class="name">John Connor</p>
+                    <p class="text-comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, ex? Fugiat nam pariatur placeat non, dolore obcaecati</p>
+                </div>
+            </div>
+        </section>
+        <section class="suggestions">
+            <h4>Sugerencias</h4>
+            <div class="suggestion">
+                <img src="suggest_1.jpg" alt="">
+                <p>Quick an easy Lunches For the cooking challenged</p>
+            </div>
+            <div class="suggestion">
+                <img src="suggest_2.jpg" alt="">
+                <p>New movies coming soon</p>
+            </div>
+        </section>
+    </section>
+    <script>
+        var burgerButton = document.getElementById('burger-icon');
+        var menu = document.getElementById('content-menu');
+        console.log(burgerButton);
+
+        function openMenu() {
+            menu.classList.toggle('opened');
+        }
+        burgerButton.addEventListener('click', openMenu);
+    </script>
+</body>
+</html>
